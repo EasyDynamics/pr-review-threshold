@@ -1,5 +1,6 @@
 {
   "name": "review-threshold",
+  "description": "A status check Action that fails until the required number of approvals are met",
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
@@ -43,7 +44,8 @@
   },
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1"
+    "@actions/github": "^5.1.1",
+    "@octokit/webhooks-definitions": "^3.67.3"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",
