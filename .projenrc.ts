@@ -37,24 +37,26 @@ const project = new GitHubActionTypeScriptProject({
       },
     },
   },
-
-  // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  // packageName: undefined,  /* The "name" in package.json. */
 });
 
-project.github
-  ?.addWorkflow('check-reviews')
-  .addJob('Check review count', {
-    runsOn: ['ubuntu-latest'],
-    permissions: {
-      pullRequests: github.workflows.JobPermission.READ,
+const workflow = project.github?.addWorkflow('check-reviews');
+workflow?.on({
+  pullRequestTarget: {
+    types: ['opened', 'labeled', 'reopened', 'unlabeled', 'edited'],
+  },
+  pullRequestReview: {},
+});
+workflow?.addJob('Check review count', {
+  runsOn: ['ubuntu-latest'],
+  permissions: {
+    pullRequests: github.workflows.JobPermission.READ,
+  },
+  steps: [
+    {
+      name: 'Run action',
+      uses: './',
     },
-    steps: [
-      {
-        name: 'Run action',
-        uses: '.',
-      },
-    ],
-  });
+  ],
+});
 
 project.synth();
