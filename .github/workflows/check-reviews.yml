@@ -11,7 +11,8 @@ on:
       - edited
   pull_request_review: {}
 jobs:
-  Check review count:
+  check-count:
+    name: Check Review Count
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read

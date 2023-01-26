@@ -46,7 +46,8 @@ workflow?.on({
   },
   pullRequestReview: {},
 });
-workflow?.addJob('Check review count', {
+workflow?.addJob('check-count', {
+  name: 'Check Review Count',
   runsOn: ['ubuntu-latest'],
   permissions: {
     pullRequests: github.workflows.JobPermission.READ,
