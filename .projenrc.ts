@@ -1,3 +1,4 @@
+import { github } from 'projen';
 import { GitHubActionTypeScriptProject, RunsUsing } from 'projen-github-action-typescript';
 
 const description = 'A status check Action that fails until the required number of approvals are met';
@@ -40,5 +41,20 @@ const project = new GitHubActionTypeScriptProject({
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   // packageName: undefined,  /* The "name" in package.json. */
 });
+
+project.github
+  ?.addWorkflow('check-reviews')
+  .addJob('Check review count', {
+    runsOn: ['ubuntu-latest'],
+    permissions: {
+      pullRequests: github.workflows.JobPermission.READ,
+    },
+    steps: [
+      {
+        name: 'Run action',
+        uses: '.',
+      },
+    ],
+  });
 
 project.synth();

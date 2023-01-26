@@ -47,3 +47,4 @@ junit.xml
 !/.eslintrc.json
 !/dist/
 !/action.yml
+!/.github/workflows/check-reviews.yml
