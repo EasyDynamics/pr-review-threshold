@@ -21,6 +21,11 @@
     "watch": "npx projen watch",
     "projen": "npx projen"
   },
+  "author": {
+    "name": "Easy Dynamics Corp",
+    "url": "https://easydynamics.com",
+    "organization": true
+  },
   "devDependencies": {
     "@types/jest": "^29.4.0",
     "@types/node": "^14",
@@ -48,7 +53,7 @@
     "@octokit/webhooks-definitions": "^3.67.3"
   },
   "main": "lib/main.js",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "version": "0.0.0",
   "jest": {
     "testMatch": [

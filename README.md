@@ -50,3 +50,10 @@ that requirement has not (or if there is an error).
 
 Pull requests to address any known limitations are welcome! Please open an issue to discuss
 the implementation and your specific use case before beginning work.
+
+## Contributing
+
+This project welcomes contributions! Please review the
+[contributing documentation](/CONTRIBUTING.md) and [code of conduct](/CODE_OF_CONDUCT.md).
+Additionally, contributions to this project must be made available under the terms of
+the [license](/LICENSE) and after signing the project CLA.

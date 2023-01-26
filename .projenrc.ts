@@ -6,12 +6,16 @@ const description = 'A status check Action that fails until the required number 
 const project = new GitHubActionTypeScriptProject({
   name: 'review-threshold',
   description,
+  authorName: 'Easy Dynamics Corp',
+  authorUrl: 'https://easydynamics.com',
+  authorOrganization: true,
 
   devDeps: ['projen-github-action-typescript'],
   deps: ['@octokit/webhooks-definitions'],
 
   defaultReleaseBranch: 'main',
   projenrcTs: true,
+  license: 'MIT',
 
   entrypoint: 'lib/main.js',
 
