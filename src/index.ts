@@ -4,7 +4,7 @@ import type { Octokit } from '@octokit/core';
 import { PullRequestEvent, PullRequestReviewEvent } from '@octokit/webhooks-definitions/schema';
 
 const pullRequestQuery = `
-query($owner: String!, name: String!, number: Int!) {
+query($owner: String!, $name: String!, $number: Int!) {
   repository(name: $name, owner: $owner) {
     pullRequest(number: $number) {
       reviewDecision
