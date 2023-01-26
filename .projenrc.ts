@@ -32,7 +32,7 @@ const project = new GitHubActionTypeScriptProject({
       },
       'token': {
         description: 'The token with access to read pull requests and issues and write statuses',
-        default: '${{ secrets.GITHUB_TOKEN }}',
+        default: '${{ secret.GITHUB_TOKEN }}',
         required: true,
       },
     },
