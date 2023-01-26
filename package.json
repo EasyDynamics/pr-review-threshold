@@ -47,7 +47,7 @@
     "@actions/github": "^5.1.1",
     "@octokit/webhooks-definitions": "^3.67.3"
   },
-  "main": "lib/index.js",
+  "main": "lib/main.js",
   "license": "Apache-2.0",
   "version": "0.0.0",
   "jest": {
