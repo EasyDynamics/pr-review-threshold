@@ -122,4 +122,23 @@ describe('required review threshold', () => {
     // THEN
     expect(required).toBe(max);
   });
+  it('allows overriding the required reviews to a smaller number', () => {
+    // GIVEN
+    const prefix = 'review-required/';
+    const defaultThreshold = 1;
+    const required = 0;
+    const pr: PullRequestReviewsAndLabels = {
+      reviewDecision: 'REVIEW_REQUIRED',
+      reviews: { nodes: [] },
+      labels: {
+        nodes: [
+          { name: `${prefix}${required}` },
+        ],
+      },
+    };
+    // WHEN
+    const actualRequired = requiredReviewThreshold(pr, prefix, defaultThreshold);
+    // THEN
+    expect(actualRequired).toBe(required);
+  });
 });

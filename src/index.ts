@@ -63,13 +63,20 @@ export function uniqueApprovals(reviews: PullRequestReview[]): number {
 }
 
 export function requiredReviewThreshold(pullRequest: PullRequestReviewsAndLabels, labelFormat: string, defaultReviews: number): number {
-  return pullRequest.labels.nodes
+  const matchingLabels = pullRequest.labels.nodes
     .map(label => label.name)
-    .filter(name => name.startsWith(labelFormat))
+    .filter(name => name.startsWith(labelFormat));
+
+  if (!matchingLabels.length) {
+    core.warning(`No label matched; falling back to default: ${defaultReviews}`);
+    return defaultReviews;
+  }
+
+  return matchingLabels
     .map(label => label.replace(labelFormat, ''))
     .map(suffix => Number(suffix))
-    .map(num => (isNaN(num) || num < 1) ? defaultReviews : num)
-    .reduce((a, b) => Math.max(a, b), defaultReviews);
+    .map(num => (isNaN(num) || num < 1) ? 0 : num)
+    .reduce((a, b) => Math.max(a, b), 0);
 }
 
 async function getPullRequest(octokit: Octokit, owner: string, name: string, number: number): Promise<PullRequestReviewsAndLabels> {
