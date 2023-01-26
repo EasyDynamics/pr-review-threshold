@@ -117,7 +117,7 @@ async function run(): Promise<void> {
   const requiredApprovals = requiredReviewThreshold(pullRequest, labelFormat, defaultReviews);
   const approveCount = uniqueApprovals(pullRequest.reviews.nodes);
   if (requiredApprovals < 1) {
-    core.warning(`Approval threshold was found to be less than 1 (is ${requiredApprovals}. Is this intentional?`);
+    core.warning(`Approval threshold was found to be less than 1 (is: ${requiredApprovals}). Is this intentional?`);
   }
   if (approveCount < requiredApprovals) {
     core.setFailed(`Only  ${approveCount} reviews have approved but ${requiredApprovals} are required`);
