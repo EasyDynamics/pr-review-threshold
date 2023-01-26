@@ -50,9 +50,14 @@ workflow?.addJob('check-count', {
   name: 'Check Review Count',
   runsOn: ['ubuntu-latest'],
   permissions: {
+    contents: github.workflows.JobPermission.READ,
     pullRequests: github.workflows.JobPermission.READ,
   },
   steps: [
+    {
+      name: 'Checkout code',
+      uses: 'actions/checkout@v3',
+    },
     {
       name: 'Run action',
       uses: './',
