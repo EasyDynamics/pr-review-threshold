@@ -91,8 +91,8 @@ async function getPullRequest(octokit: Octokit, owner: string, name: string, num
 async function run(): Promise<void> {
   const labelFormat = core.getInput('review-label-prefix', { required: true });
   const defaultReviews = Number(core.getInput('default-required-reviewers', { required: true }));
-  if (isNaN(defaultReviews) || defaultReviews < 1) {
-    throw new Error('Default review count must be at least `1`');
+  if (isNaN(defaultReviews) || defaultReviews < 0) {
+    throw new Error('Default review count must be at least `0`');
   }
   const token = core.getInput('token', { required: true });
 
@@ -107,9 +107,6 @@ async function run(): Promise<void> {
   const pullRequest = await getPullRequest(octokit, owner.login, repoName, prNumber);
   if (pullRequest.reviewDecision === 'CHANGES_REQUESTED') {
     throw new Error('The pull request is in a "Changes requested" state and cannot be merged');
-  }
-  if (pullRequest.reviewDecision === 'REVIEW_REQUIRED') {
-    throw new Error('The necessary approval threshold for branch protection has not been met');
   }
   // At the point, all reviews are either comments or approvals and the branch protection
   // threshold has been met; however, we need to ensure the PR meets the addition rules for

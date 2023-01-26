@@ -50,8 +50,10 @@ workflow?.addJob('check-count', {
   name: 'Check Review Count',
   runsOn: ['ubuntu-latest'],
   permissions: {
-    contents: github.workflows.JobPermission.READ,
     pullRequests: github.workflows.JobPermission.READ,
+    // We need to clone the repository because the action lives here, which requires
+    // `contents: read`. This would not normally be required for this action.
+    contents: github.workflows.JobPermission.READ,
   },
   steps: [
     {
