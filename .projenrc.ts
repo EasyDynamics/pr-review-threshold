@@ -13,6 +13,8 @@ const project = new GitHubActionTypeScriptProject({
   defaultReleaseBranch: 'main',
   projenrcTs: true,
 
+  entrypoint: 'lib/main.js',
+
   actionMetadata: {
     description,
     runs: {
