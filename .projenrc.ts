@@ -17,7 +17,7 @@ const project = new GitHubActionTypeScriptProject({
     description,
     runs: {
       using: RunsUsing.NODE_16,
-      main: 'dist/index.js',
+      main: 'dist/main.js',
     },
     inputs: {
       'review-label-prefix': {

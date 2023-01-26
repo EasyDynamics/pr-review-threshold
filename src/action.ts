@@ -29,7 +29,6 @@ query($owner: String!, $name: String!, $number: Int!) {
 `;
 
 export type ReviewType = 'APPROVED' | 'PENDING' | 'COMMENTED' | 'CHANGES_REQUESTED' | 'DISMISSED';
-
 export type PullRequestReview = {
   author: {
     login: string;
@@ -38,7 +37,6 @@ export type PullRequestReview = {
   state: ReviewType;
   submittedAt: string;
 };
-
 export type PullRequestReviewsAndLabels = {
   reviews: {
     nodes: PullRequestReview[];
@@ -54,8 +52,15 @@ export type PullRequestReviewsAndLabels = {
 export function uniqueApprovals(reviews: PullRequestReview[]): number {
   const latestReviews: Record<string, { timestamp: string; state: ReviewType }> = {};
   for (const review of reviews) {
-    const latestReview = latestReviews[review.author.login];
-    if (!latestReview || (latestReview.timestamp < review.submittedAt && ['APPROVED', 'DISMISSED', 'CHANGES_REQUESTED'].includes(review.state))) {
+    const previousAuthorReview = latestReviews[review.author.login];
+    // The input data should be date-ordered but it may not be too. Additionally, comments
+    // and pending reviews do not "override" a previous approval or rejection. Only a
+    // dismissal, approval, or rejection can.
+    const isUpdatedReview = (
+      (previousAuthorReview?.timestamp ?? '') < review.submittedAt
+      && ['APPROVED', 'DISMISSED', 'CHANGES_REQUESTED'].includes(review.state)
+    );
+    if (!previousAuthorReview || isUpdatedReview) {
       latestReviews[review.author.login] = { timestamp: review.submittedAt, state: review.state };
     }
   }
@@ -88,49 +93,51 @@ async function getPullRequest(octokit: Octokit, owner: string, name: string, num
   return data.repository.pullRequest;
 }
 
-async function run(): Promise<void> {
-  const labelFormat = core.getInput('review-label-prefix', { required: true });
+function getDefaultReviewCount(): number {
   const defaultReviews = Number(core.getInput('default-required-reviewers', { required: true }));
   if (isNaN(defaultReviews) || defaultReviews < 0) {
     throw new Error('Default review count must be at least `0`');
   }
-  const token = core.getInput('token', { required: true });
+  return defaultReviews;
+}
 
-  const octokit = github.getOctokit(token);
+export async function run(): Promise<void> {
   if (!github.context.eventName.startsWith('pull_request')) {
-    throw new Error('The event type is not correct');
+    throw new Error(`The event type (${github.context.eventName}) is not supported`);
   }
+
+  const labelFormat = core.getInput('review-label-prefix', { required: true });
+  const defaultReviews = getDefaultReviewCount();
+
   const event = github.context.payload as PullRequestEvent | PullRequestReviewEvent;
   const owner = event.repository.owner;
   const repoName = event.repository.name;
   const prNumber = event.pull_request.number;
+
+  const octokit = github.getOctokit(core.getInput('token', { required: true }));
   const pullRequest = await getPullRequest(octokit, owner.login, repoName, prNumber);
   if (pullRequest.reviewDecision === 'CHANGES_REQUESTED') {
     throw new Error('The pull request is in a "Changes requested" state and cannot be merged');
   }
+
   // At the point, all reviews are either comments or approvals and the branch protection
-  // threshold has been met; however, we need to ensure the PR meets the addition rules for
+  // threshold has been met; however, we need to ensure the PR meets the additional rules for
   // this action's configuration.
   const requiredApprovals = requiredReviewThreshold(pullRequest, labelFormat, defaultReviews);
   const approveCount = uniqueApprovals(pullRequest.reviews.nodes);
+
+  // These situations are explicitly supported by this action; however, we should still warn
+  // that this situation occurred.
   if (requiredApprovals < 1) {
-    core.warning(`Approval threshold was found to be less than 1 (is: ${requiredApprovals}). Is this intentional?`);
+    core.warning(`Approval threshold (${requiredApprovals}) is less than 1. Is this intentional?`);
   }
+  if (requiredApprovals < defaultReviews) {
+    core.warning(`Approval threshold (${requiredApprovals}) is less than the configured default (${defaultReviews}). Is this intentional?`);
+  }
+
   if (approveCount < requiredApprovals) {
-    core.setFailed(`Only  ${approveCount} reviews have approved but ${requiredApprovals} are required`);
+    core.setFailed(`Only ${approveCount} reviews have approved but ${requiredApprovals} are required`);
   } else {
     core.info(`Received ${requiredApprovals}/${approveCount} approvals`);
   }
 }
-
-async function main(): Promise<void> {
-  try {
-    await run();
-  } catch (error: unknown) {
-    if (error instanceof Error) core.setFailed(error.message);
-    else core.setFailed(`${error}`);
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-main();

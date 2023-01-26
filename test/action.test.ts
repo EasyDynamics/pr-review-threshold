@@ -1,4 +1,4 @@
-import { requiredReviewThreshold, uniqueApprovals, PullRequestReview, ReviewType, PullRequestReviewsAndLabels } from '../src';
+import { requiredReviewThreshold, uniqueApprovals, PullRequestReview, ReviewType, PullRequestReviewsAndLabels } from '../src/action';
 
 function makeReview(name: string, state: ReviewType, timestamp: string): PullRequestReview {
   return {
