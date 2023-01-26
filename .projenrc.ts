@@ -19,7 +19,9 @@ const project = new GitHubActionTypeScriptProject({
     description,
     runs: {
       using: RunsUsing.NODE_16,
-      main: 'dist/main.js',
+      // The build always creates this as `index.js`, regardless of the naming we use
+      // internally.
+      main: 'dist/index.js',
     },
     inputs: {
       'review-label-prefix': {

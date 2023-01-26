@@ -4,7 +4,7 @@ name: review-threshold
 description: A status check Action that fails until the required number of approvals are met
 runs:
   using: node16
-  main: dist/main.js
+  main: dist/index.js
 inputs:
   review-label-prefix:
     description: The format of label names that identify the required number of reviewers
