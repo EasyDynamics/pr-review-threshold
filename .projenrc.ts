@@ -4,16 +4,24 @@ import { GitHubActionTypeScriptProject, RunsUsing } from 'projen-github-action-t
 const description = 'A status check Action that fails until the required number of approvals are met';
 
 const project = new GitHubActionTypeScriptProject({
-  name: 'review-threshold',
+  name: 'pr-review-threshold',
   description,
+  authorName: 'Easy Dynamics Corp',
+  authorUrl: 'https://easydynamics.com',
+  authorOrganization: true,
 
   devDeps: ['projen-github-action-typescript'],
   deps: ['@octokit/webhooks-definitions'],
 
   defaultReleaseBranch: 'main',
   projenrcTs: true,
+  license: 'MIT',
 
   entrypoint: 'lib/main.js',
+
+  githubOptions: {
+    projenCredentials: github.GithubCredentials.fromApp(),
+  },
 
   actionMetadata: {
     description,
@@ -49,7 +57,7 @@ project.tryFindObjectFile('package.json')?.addOverride('main', 'lib/main.js');
 const workflow = project.github?.addWorkflow('check-reviews');
 workflow?.on({
   pullRequestTarget: {
-    types: ['opened', 'labeled', 'reopened', 'unlabeled', 'edited'],
+    types: ['opened', 'labeled', 'reopened', 'unlabeled', 'edited', 'synchronize'],
   },
   pullRequestReview: {},
 });
