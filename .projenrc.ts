@@ -57,7 +57,7 @@ project.tryFindObjectFile('package.json')?.addOverride('main', 'lib/main.js');
 const workflow = project.github?.addWorkflow('check-reviews');
 workflow?.on({
   pullRequestTarget: {
-    types: ['opened', 'labeled', 'reopened', 'unlabeled', 'edited'],
+    types: ['opened', 'labeled', 'reopened', 'unlabeled', 'edited', 'synchronize'],
   },
   pullRequestReview: {},
 });

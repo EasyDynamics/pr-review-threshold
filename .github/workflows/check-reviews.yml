@@ -9,6 +9,7 @@ on:
       - reopened
       - unlabeled
       - edited
+      - synchronize
   pull_request_review: {}
 jobs:
   check-count:
