@@ -1,5 +1,5 @@
 {
-  "name": "review-threshold",
+  "name": "pr-review-threshold",
   "description": "A status check Action that fails until the required number of approvals are met",
   "scripts": {
     "build": "npx projen build",
@@ -38,7 +38,6 @@
     "eslint-plugin-import": "^2.27.5",
     "jest": "^29.4.0",
     "jest-junit": "^13",
-    "json-schema": "^0.4.0",
     "npm-check-updates": "^16",
     "projen": "^0.67.13",
     "projen-github-action-typescript": "^0.0.210",
