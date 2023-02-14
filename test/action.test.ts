@@ -1,6 +1,7 @@
-import { requiredReviewThreshold, uniqueApprovals, PullRequestReview, ReviewType, PullRequestReviewsAndLabels } from '../src/action';
+import type { PullRequestReviewState } from '@octokit/graphql-schema';
+import { requiredReviewThreshold, uniqueActiveApprovers, PullRequestReview, PullRequestReviewsAndLabels } from '../src/action';
 
-function makeReview(name: string, state: ReviewType, timestamp: string): PullRequestReview {
+function makeReview(name: string, state: PullRequestReviewState, timestamp: string): PullRequestReview {
   return {
     author: {
       login: name,
@@ -20,7 +21,7 @@ const reviews: PullRequestReview[] = [
 
 describe('unique approval count', () => {
   it('returns the number of approvals', () => {
-    expect(uniqueApprovals(reviews)).toBe(2);
+    expect(uniqueActiveApprovers(reviews)).toBe(2);
   });
   it('ignores an approval if changes later requested', () => {
     // GIVEN
@@ -29,7 +30,7 @@ describe('unique approval count', () => {
       makeReview('user345', 'CHANGES_REQUESTED', '2023-01-01T00:00:00Z'),
     ];
     // WHEN
-    const approvalCount = uniqueApprovals(prReviews);
+    const approvalCount = uniqueActiveApprovers(prReviews);
     // THEN
     expect(approvalCount).toBe(1);
   });
@@ -40,7 +41,7 @@ describe('unique approval count', () => {
       makeReview('user123', 'DISMISSED', '2023-01-01T00:00:00Z'),
     ];
     // WHEN
-    const approvalCount = uniqueApprovals(prReviews);
+    const approvalCount = uniqueActiveApprovers(prReviews);
     // THEN
     expect(approvalCount).toBe(1);
   });
@@ -48,10 +49,10 @@ describe('unique approval count', () => {
     // GIVEN
     const prReviews = [
       ...reviews,
-      makeReview('user123', type as ReviewType, '2023-01-01T00:00:00Z'),
+      makeReview('user123', type as PullRequestReviewState, '2023-01-01T00:00:00Z'),
     ];
     // WHEN
-    const approvalCount = uniqueApprovals(prReviews);
+    const approvalCount = uniqueActiveApprovers(prReviews);
     // THEN
     expect(approvalCount).toBe(2);
   });
@@ -77,7 +78,7 @@ describe('required review threshold', () => {
     };
     const defaultThreshold = 100;
     // WHEN
-    const required = requiredReviewThreshold(pr, 'required-reviews/', defaultThreshold);
+    const required = requiredReviewThreshold(pr.labels.nodes, 'required-reviews/', defaultThreshold);
     // THEN
     expect(required).toBe(defaultThreshold);
   });
@@ -95,7 +96,7 @@ describe('required review threshold', () => {
     };
     const defaultThreshold = -1000;
     // WHEN
-    const required = requiredReviewThreshold(pr, prefix, defaultThreshold);
+    const required = requiredReviewThreshold(pr.labels.nodes, prefix, defaultThreshold);
     // THEN
     expect(required).toBe(count);
     expect(required).not.toBe(defaultThreshold);
@@ -118,7 +119,7 @@ describe('required review threshold', () => {
     };
     const defaultThreshold = -1000;
     // WHEN
-    const required = requiredReviewThreshold(pr, prefix, defaultThreshold);
+    const required = requiredReviewThreshold(pr.labels.nodes, prefix, defaultThreshold);
     // THEN
     expect(required).toBe(max);
   });
@@ -137,7 +138,7 @@ describe('required review threshold', () => {
       },
     };
     // WHEN
-    const actualRequired = requiredReviewThreshold(pr, prefix, defaultThreshold);
+    const actualRequired = requiredReviewThreshold(pr.labels.nodes, prefix, defaultThreshold);
     // THEN
     expect(actualRequired).toBe(required);
   });
