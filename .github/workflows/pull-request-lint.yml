@@ -25,4 +25,7 @@ jobs:
             feat
             fix
             chore
+            refactor
+            docs
+            merge
           requireScope: false

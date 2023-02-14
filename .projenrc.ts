@@ -21,6 +21,11 @@ const project = new GitHubActionTypeScriptProject({
 
   githubOptions: {
     projenCredentials: github.GithubCredentials.fromApp(),
+    pullRequestLintOptions: {
+      semanticTitleOptions: {
+        types: ['feat', 'fix', 'chore', 'refactor', 'docs', 'merge'],
+      },
+    },
   },
 
   actionMetadata: {
