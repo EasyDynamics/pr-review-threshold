@@ -4,7 +4,7 @@ import { GitHubActionTypeScriptProject, RunsUsing } from 'projen-github-action-t
 const description = 'A status check Action that fails until the required number of approvals are met';
 
 const project = new GitHubActionTypeScriptProject({
-  name: 'review-threshold',
+  name: 'pr-review-threshold',
   description,
   authorName: 'Easy Dynamics Corp',
   authorUrl: 'https://easydynamics.com',
@@ -18,6 +18,10 @@ const project = new GitHubActionTypeScriptProject({
   license: 'MIT',
 
   entrypoint: 'lib/main.js',
+
+  githubOptions: {
+    projenCredentials: github.GithubCredentials.fromApp(),
+  },
 
   actionMetadata: {
     description,
