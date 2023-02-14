@@ -17,7 +17,7 @@ Otherwise, its failing status can be ignored.
 
 ```yaml
 - name: Enforce additional reviews
-  uses: easydynamics/cloud-pr-review-threshold-action@main
+  uses: easydynamics/pr-review-threshold@main
   with:
     # You can use any token as long as it has `pull-requests: read`.
     token: ${{ secrets.GITHUB_TOKEN }}

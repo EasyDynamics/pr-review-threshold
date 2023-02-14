@@ -1,6 +1,14 @@
 {
   "dependencies": [
     {
+      "name": "@octokit/graphql-schema",
+      "type": "build"
+    },
+    {
+      "name": "@octokit/webhooks-definitions",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -85,10 +93,6 @@
     },
     {
       "name": "@actions/github",
-      "type": "runtime"
-    },
-    {
-      "name": "@octokit/webhooks-definitions",
       "type": "runtime"
     }
   ],
