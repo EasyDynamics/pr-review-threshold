@@ -3821,7 +3821,7 @@ jest-worker@^29.4.2:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
-jest@^29.4.0:
+jest@^29.4.2:
   version "29.4.2"
   resolved "https://registry.yarnpkg.com/jest/-/jest-29.4.2.tgz#4c2127d03a71dc187f386156ef155dbf323fb7be"
   integrity sha512-+5hLd260vNIHu+7ZgMIooSpKl7Jp5pHKb51e73AJU3owd5dEo/RfVwHbA/na3C/eozrt3hJOLGf96c7EWwIAzg==
@@ -4846,17 +4846,17 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen-github-action-typescript@^0.0.210:
-  version "0.0.210"
-  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.210.tgz#eb0ab1ac2665d1905779196837e5d6b434acbd25"
-  integrity sha512-QkQdyK3o5tfsi5WxXHbzp62t8r7tDTTHt9qnEYXme3+ikp7FH3+xW+nk6Rg6RCdM2fDH8oXFmTJ4m/SmPYNqnQ==
+projen-github-action-typescript@^0.0.231:
+  version "0.0.231"
+  resolved "https://registry.yarnpkg.com/projen-github-action-typescript/-/projen-github-action-typescript-0.0.231.tgz#283824b3ec3f6279a925a63ce6bcf37b0eef6cca"
+  integrity sha512-ucl5tnyCyQq5pwefaNVURi9osdQh6bUfeqUZgjho4F1sTMG4iP1zHaqCJqqDN1boMoEbBAxS4wiOgpf70Tjs1Q==
   dependencies:
-    projen "^0.67.12"
+    projen "^0.67.53"
 
-projen@^0.67.12, projen@^0.67.13:
-  version "0.67.52"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.67.52.tgz#fed4c5770df0924d2d7cc8faaab87eb309b08a9e"
-  integrity sha512-k1d5HB2ZQ19rfo5GTE2/UvyD8gcMIF34ryNyrV6SjCz6+vmRzjVXXH5ZYGOrrvM/XGRP0HuQZnMUA4FazRCkLA==
+projen@^0.67.53:
+  version "0.67.53"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.67.53.tgz#f6e442c3925220b5cde6eb319a307746dd3bb3e9"
+  integrity sha512-whfuXhmqztSikq4IYOqVYpZfIYG3y2x1HdIeCbY8y5BlMQV1zquMqiwNj1am32bzdkR15+SDiPs/B3TtZJbPAw==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
@@ -5800,7 +5800,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@^4.9.4:
+typescript@^4.9.5:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
@@ -5921,9 +5921,9 @@ v8-compile-cache-lib@^3.0.1:
   integrity sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==
 
 v8-to-istanbul@^9.0.1:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/v8-to-istanbul/-/v8-to-istanbul-9.0.1.tgz#b6f994b0b5d4ef255e17a0d17dc444a9f5132fa4"
-  integrity sha512-74Y4LqY74kLE6IFyIjPtkSTWzUZmj8tdHT9Ii/26dvQ6K9Dl2NbEfj0XgU2sHCtKgt5VupqhlO/5aWuqS+IY1w==
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/v8-to-istanbul/-/v8-to-istanbul-9.1.0.tgz#1b83ed4e397f58c85c266a570fc2558b5feb9265"
+  integrity sha512-6z3GW9x8G1gd+JIIgQQQxXuiJtCXeAjp6RaPEPLv62mH3iPHPxV6W3robxtCzNErRo6ZwTmzWhsbNvjyEBKzKA==
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.12"
     "@types/istanbul-lib-coverage" "^2.0.1"
