@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import type { Octokit } from '@octokit/core';
 import type { PullRequestReviewState, PullRequestReviewDecision } from '@octokit/graphql-schema';
-import type { PullRequestEvent, PullRequestReviewEvent } from '@octokit/webhooks-definitions/schema';
+import type { PullRequestEvent, PullRequestReviewEvent } from '@octokit/webhooks-types';
 import * as constants from './constants';
 
 const pullRequestQuery = `

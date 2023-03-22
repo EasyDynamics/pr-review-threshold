@@ -11,7 +11,7 @@ const project = new GitHubActionTypeScriptProject({
   authorUrl: 'https://easydynamics.com',
   authorOrganization: true,
 
-  devDeps: ['projen-github-action-typescript', '@octokit/graphql-schema', '@octokit/webhooks-definitions'],
+  devDeps: ['projen-github-action-typescript', '@octokit/graphql-schema', '@octokit/webhooks-types'],
 
   defaultReleaseBranch: 'main',
   projenrcTs: true,
