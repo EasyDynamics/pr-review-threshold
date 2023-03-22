@@ -5,7 +5,7 @@
       "type": "build"
     },
     {
-      "name": "@octokit/webhooks-definitions",
+      "name": "@octokit/webhooks-types",
       "type": "build"
     },
     {
