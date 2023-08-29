@@ -1659,6 +1659,19 @@ class HttpClientResponse {
             }));
         });
     }
+    readBodyBuffer() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
+                const chunks = [];
+                this.message.on('data', (chunk) => {
+                    chunks.push(chunk);
+                });
+                this.message.on('end', () => {
+                    resolve(Buffer.concat(chunks));
+                });
+            }));
+        });
+    }
 }
 exports.HttpClientResponse = HttpClientResponse;
 function isHttps(requestUrl) {
@@ -2163,7 +2176,13 @@ function getProxyUrl(reqUrl) {
         }
     })();
     if (proxyVar) {
-        return new URL(proxyVar);
+        try {
+            return new URL(proxyVar);
+        }
+        catch (_a) {
+            if (!proxyVar.startsWith('http://') && !proxyVar.startsWith('https://'))
+                return new URL(`http://${proxyVar}`);
+        }
     }
     else {
         return undefined;
@@ -9264,10 +9283,6 @@ function getNodeRequestOptions(request) {
 		agent = agent(parsedURL);
 	}
 
-	if (!headers.has('Connection') && !agent) {
-		headers.set('Connection', 'close');
-	}
-
 	// HTTP-network fetch step 4.2
 	// chunked encoding is handled by Node.js
 
@@ -9641,8 +9656,11 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 
 		if (headers['transfer-encoding'] === 'chunked' && !headers['content-length']) {
 			response.once('close', function (hadError) {
+				// tests for socket presence, as in some situations the
+				// the 'socket' event is not triggered for the request
+				// (happens in deno), avoids `TypeError`
 				// if a data listener is still present we didn't end cleanly
-				const hasDataListener = socket.listenerCount('data') > 0;
+				const hasDataListener = socket && socket.listenerCount('data') > 0;
 
 				if (hasDataListener && !hadError) {
 					const err = new Error('Premature close');
@@ -9684,6 +9702,7 @@ exports.Headers = Headers;
 exports.Request = Request;
 exports.Response = Response;
 exports.FetchError = FetchError;
+exports.AbortError = AbortError;
 
 
 /***/ }),
